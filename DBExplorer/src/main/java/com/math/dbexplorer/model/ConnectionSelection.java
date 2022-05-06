@@ -18,8 +18,9 @@ public class ConnectionSelection {
     ArrayList<NamedConnection> connections = new ArrayList<>();
 
     public ConnectionSelection() {
-        this.connections.add(new NamedConnection("Pg1", "localhost", 5432, "test", "123456789", "postgresql", "postgresql"));
-        this.connections.add(new NamedConnection("Pg2", "127.0.0.1", 5433, "test2", "1234567890", "postgresql", "postgresql"));
+        this.connections.add(new NamedConnection("Pg1", "localhost", 5432, "test", "123456789", "postgres", "postgresql"));
+        this.connections.add(new NamedConnection("Pg2", "localhost", 5432, "test", "123456789", "livraria0", "postgresql"));
+        this.connections.add(new NamedConnection("Pg3", "127.0.0.1", 5433, "test2", "1234567890", "postgres", "postgresql"));
         this.connections.add(new NamedConnection("MySQL", "127.0.0.1", 5433, "root", "1234567890", "mysql", "mysql"));
     }
 
