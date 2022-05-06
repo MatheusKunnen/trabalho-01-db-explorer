@@ -4,10 +4,37 @@
  */
 package com.math.dbexplorer.model;
 
+import com.math.dbexplorer.beans.ConnMetaData;
+import com.math.dbexplorer.database.ConnectionProvider;
+
 /**
  *
  * @author matheuskunnen
  */
 public class ConnectionExplorer {
+    ConnMetaData connMeta;
+    ConnectionProvider connProvider;
+
+    public ConnectionExplorer(ConnectionProvider connProvider, ConnMetaData connMeta) {
+        this.connMeta = connMeta;
+        this.connProvider = connProvider;
+    }
+
+    public ConnMetaData getConnMeta() {
+        return connMeta;
+    }
+
+    public void setConnMeta(ConnMetaData connMeta) {
+        this.connMeta = connMeta;
+    }
+
+    public ConnectionProvider getConnProvider() {
+        return connProvider;
+    }
+
+    public void setConnProvider(ConnectionProvider connProvider) {
+        this.connProvider = connProvider;
+    }
+    
     
 }

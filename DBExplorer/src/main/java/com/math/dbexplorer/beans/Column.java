@@ -47,6 +47,18 @@ public class Column {
     public void setIsPrimaryKey(boolean primaryKey) {
         this.primaryKey = primaryKey;
     }
+    
+    public String getTreeName() {
+        String diferentiator = this.isPrimaryKey() ? "(pk) " : "";
+        return diferentiator + this.getName() + " : " + Column.GetTypeName(this.getType());
+            
+    }
+    
+    public static String GetTypeName(int type) {
+        return switch (type) {
+            default -> "Unknown";
+        };
+    }
 
     public static Column GetFromResultSet(ResultSet rs) throws SQLException {
         return new Column(rs.getString(4), rs.getInt(5), false);

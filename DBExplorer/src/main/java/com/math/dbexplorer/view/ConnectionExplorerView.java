@@ -4,7 +4,9 @@
  */
 package com.math.dbexplorer.view;
 
+import com.math.dbexplorer.controller.ConnectionExplorerController;
 import com.math.dbexplorer.database.ConnectionProvider;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -12,14 +14,19 @@ import com.math.dbexplorer.database.ConnectionProvider;
  */
 public class ConnectionExplorerView extends javax.swing.JPanel {
 
-    private ConnectionProvider connProvider;
+    private final ConnectionExplorerController controller;
 
     /**
      * Creates new form ConnectionExplorerView
      */
     public ConnectionExplorerView(ConnectionProvider connProvider) {
         initComponents();
-        this.connProvider = connProvider;
+        this.controller = new ConnectionExplorerController(this, connProvider);
+        this.controller.init();
+    }
+
+    public void hydrateConnectionTree() {
+        this.treeConnection.setModel(new DefaultTreeModel(this.controller.getConnTree()));
     }
 
     /**
@@ -34,14 +41,14 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        treeConnection = new javax.swing.JTree();
+        tabQueries = new javax.swing.JTabbedPane();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        treeConnection.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane1.setViewportView(treeConnection);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -54,7 +61,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.setToolTipText("");
+        tabQueries.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -64,7 +71,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addComponent(tabQueries, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -72,7 +79,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(tabQueries, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -94,7 +101,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTabbedPane tabQueries;
+    private javax.swing.JTree treeConnection;
     // End of variables declaration//GEN-END:variables
 }

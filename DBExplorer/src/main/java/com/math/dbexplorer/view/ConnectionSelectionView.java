@@ -37,10 +37,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         this.txtUser.setText(selected.getUser());
         this.txtPassword.setText(selected.getPassword());
         this.txtDatabase.setText(selected.getDatabase());
-//        if (selected.getProvider().toLowerCase().equals(ConnectionParameters.PROVIDER_POSTGRES.toLowerCase())){
         this.lstProvider.setValue(selected.getProvider());
-//        } else {
-//        }
     }
 
     /**

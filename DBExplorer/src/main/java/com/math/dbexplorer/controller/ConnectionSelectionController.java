@@ -9,6 +9,8 @@ import com.math.dbexplorer.database.ConnectionProvider;
 import com.math.dbexplorer.model.ConnectionSelection;
 import com.math.dbexplorer.view.ConnectionExplorerView;
 import com.math.dbexplorer.view.ConnectionSelectionView;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
