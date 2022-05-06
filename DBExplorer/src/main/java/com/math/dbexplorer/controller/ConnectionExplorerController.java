@@ -11,6 +11,7 @@ import com.math.dbexplorer.beans.Table;
 import com.math.dbexplorer.database.ConnectionProvider;
 import com.math.dbexplorer.model.ConnectionExplorer;
 import com.math.dbexplorer.view.ConnectionExplorerView;
+import com.math.dbexplorer.view.QueryPanelView;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,12 @@ public class ConnectionExplorerController {
 
     public void init() {
         this.updateConnMetaData();
+        this.createDefaultQuery();
+    }
+    
+    public void createDefaultQuery(){
+        QueryPanelView queryView = new QueryPanelView(this.connExplorer.getConnProvider());
+        this.connExplorerView.addToTabQueries("Query", queryView);
     }
 
     public void updateConnMetaData() {

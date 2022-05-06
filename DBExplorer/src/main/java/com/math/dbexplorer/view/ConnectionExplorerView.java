@@ -6,6 +6,7 @@ package com.math.dbexplorer.view;
 
 import com.math.dbexplorer.controller.ConnectionExplorerController;
 import com.math.dbexplorer.database.ConnectionProvider;
+import javax.swing.JComponent;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -27,6 +28,10 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
 
     public void hydrateConnectionTree() {
         this.treeConnection.setModel(new DefaultTreeModel(this.controller.getConnTree()));
+    }
+    
+    public void addToTabQueries(String title, JComponent component){
+        this.tabQueries.add(title, component);
     }
 
     /**
@@ -54,7 +59,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,7 +76,7 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabQueries, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addComponent(tabQueries, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

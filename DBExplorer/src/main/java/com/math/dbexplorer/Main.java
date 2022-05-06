@@ -25,25 +25,9 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        ConnectionParameters params = new ConnectionParameters("localhost", 5432, "test", "123456789", "postgres", "postgresql");
-
-        ConnectionProvider connProvider = new ConnectionProvider(params);
-        try {
-            connProvider.connect();
-            ConnMetaData meta = ConnMetaData.GetFromConnection(connProvider.getDbConn());
-            for (int i = 0; i < meta.getCatalogs().size(); i++) {
-                Catalog catalog = meta.getCatalogs().get(i);
-                System.out.println(catalog.getName());
-                for (int j = 0; j < catalog.getSchemas().size(); j++) {
-                    System.out.println("\t" + catalog.getSchemas().get(j).getName());
-                }
-            }
-            ConnectionSelectionView view = new ConnectionSelectionView();
-            this.mainPanel.setLayout(new BorderLayout());
-            this.mainPanel.add(view);
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ConnectionSelectionView view = new ConnectionSelectionView();
+        this.mainPanel.setLayout(new BorderLayout());
+        this.mainPanel.add(view);
     }
 
     /**

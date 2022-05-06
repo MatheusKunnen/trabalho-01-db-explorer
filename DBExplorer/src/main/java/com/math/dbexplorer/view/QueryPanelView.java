@@ -4,19 +4,30 @@
  */
 package com.math.dbexplorer.view;
 
+import com.math.dbexplorer.controller.QueryPanelController;
+import com.math.dbexplorer.database.ConnectionProvider;
+import javax.swing.table.TableModel;
+import org.fife.ui.rsyntaxtextarea.*;
 /**
  *
  * @author matheuskunnen
  */
 public class QueryPanelView extends javax.swing.JPanel {
-
+    private final QueryPanelController controller;
+    
     /**
      * Creates new form QueryPanelView
      */
-    public QueryPanelView() {
+    public QueryPanelView(ConnectionProvider connProvider) {
         initComponents();
+        this.controller = new QueryPanelController(this, connProvider);
+        
     }
-
+    
+    public void setTableDataModel(TableModel model) {
+        this.tableData.setModel(model);
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,12 +42,15 @@ public class QueryPanelView extends javax.swing.JPanel {
         btnRunQuery = new javax.swing.JButton();
         tabPanelOutputs = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        dataTable = new javax.swing.JTable();
+        tableData = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtOutput = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        txtQuery = new javax.swing.JTextArea();
+        RSyntaxTextArea stextArea = new RSyntaxTextArea();
+        stextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        stextArea.setCodeFoldingEnabled(true);
+        txtQuery = stextArea;
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -66,18 +80,15 @@ public class QueryPanelView extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(dataTable);
+        jScrollPane1.setViewportView(tableData);
 
         tabPanelOutputs.addTab("Dados", jScrollPane1);
 
@@ -140,12 +151,12 @@ public class QueryPanelView extends javax.swing.JPanel {
 
     private void btnRunQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunQueryActionPerformed
         // TODO add your handling code here:
+        this.controller.runQuery(this.txtQuery.getText());
     }//GEN-LAST:event_btnRunQueryActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRunQuery;
-    private javax.swing.JTable dataTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -153,6 +164,7 @@ public class QueryPanelView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane tabPanelOutputs;
+    private javax.swing.JTable tableData;
     private javax.swing.JTextArea txtOutput;
     private javax.swing.JTextArea txtQuery;
     // End of variables declaration//GEN-END:variables
