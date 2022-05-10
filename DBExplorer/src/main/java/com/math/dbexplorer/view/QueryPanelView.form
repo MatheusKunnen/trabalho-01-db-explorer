@@ -76,6 +76,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnRunQuery" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnExport" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtLimit" min="-2" max="-2" attributes="0"/>
@@ -91,6 +93,7 @@
                           <Component id="btnRunQuery" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtLimit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExport" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -121,6 +124,15 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Limit"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnExport">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exportar"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExportActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -20,6 +20,8 @@ import java.util.logging.Logger;
  */
 public class Main extends javax.swing.JFrame {
 
+    private static Main defaultMain = null;
+
     /**
      * Creates new form Main
      */
@@ -28,6 +30,7 @@ public class Main extends javax.swing.JFrame {
         ConnectionSelectionView view = new ConnectionSelectionView();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.add(view);
+        Main.SetDefaultMain(this);
     }
 
     /**
@@ -103,6 +106,14 @@ public class Main extends javax.swing.JFrame {
                 new Main().setVisible(true);
             }
         });
+    }
+
+    private static void SetDefaultMain(Main main) {
+        Main.defaultMain = main;
+    }
+
+    public static Main GetDefaultMain() {
+        return Main.defaultMain;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

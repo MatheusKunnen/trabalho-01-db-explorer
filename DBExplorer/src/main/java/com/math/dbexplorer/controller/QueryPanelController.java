@@ -4,9 +4,11 @@
  */
 package com.math.dbexplorer.controller;
 
+import com.math.dbexplorer.Main;
 import com.math.dbexplorer.beans.QueryResult;
 import com.math.dbexplorer.database.ConnectionProvider;
 import com.math.dbexplorer.model.QueryPanel;
+import com.math.dbexplorer.view.ExportQueryResultDialogView;
 import com.math.dbexplorer.view.QueryPanelView;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,7 +57,6 @@ public class QueryPanelController {
             ResultSet rs = stm.executeQuery(query);
             QueryResult result = QueryResult.GetFromResultSet(rs, this.queryPanel.getLimit());
             rs.close();
-            System.out.println(result.getCSV());
             this.queryPanel.setQueryResult(result);
             this.view.setTableDataModel(result.getTableModel());
 
@@ -70,19 +71,26 @@ public class QueryPanelController {
         this.view.focusDataTable();
         this.queryPanel.setOutput("Query Executed !!!");
         this.view.hydrateOutputText();
+        this.view.enableExport();
     }
 
     private void onQueryError(SQLException ex) {
         this.view.focusOutput();
         this.queryPanel.setOutput(ex.getMessage());
         this.view.hydrateOutputText();
+        this.view.disableExport();
+    }
+
+    public void onExport() {
+        ExportQueryResultDialogView exportDialog = new ExportQueryResultDialogView(Main.GetDefaultMain(), true, this.queryPanel.getQueryResult());
+        exportDialog.setVisible(true);
     }
 
     public void updateLimit(final String limit) {
         int newLimit = this.queryPanel.getLimit();
         try {
             newLimit = Integer.parseInt(limit);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this.view, "Limite " + limit + " inválido.");
         }
         this.updateLimit(newLimit);

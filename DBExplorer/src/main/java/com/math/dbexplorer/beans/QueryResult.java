@@ -123,7 +123,7 @@ public class QueryResult {
         for (int i = 0; i < this.data.size(); i++) {
             JSONObject row = new JSONObject();
             for (int j = 0; j < this.columns.size(); j++) {
-                row.put(this.columns.get(i).getName(), this.data.get(i));
+                row.put(this.columns.get(j).getName(), this.data.get(i)[j]);
             }
             rows.put(row);
         }

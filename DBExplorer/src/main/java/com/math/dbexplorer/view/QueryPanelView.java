@@ -53,9 +53,17 @@ public class QueryPanelView extends javax.swing.JPanel {
     public void hydrateOutputText() {
         this.txtOutput.setText(this.controller.getQueryPanel().getOutput());
     }
-    
-    public void hydrateLimitText(){
+
+    public void hydrateLimitText() {
         this.txtLimit.setText(String.valueOf(this.controller.getQueryPanel().getLimit()));
+    }
+
+    public void enableExport() {
+        this.btnExport.setEnabled(true);
+    }
+
+    public void disableExport() {
+        this.btnExport.setEnabled(false);
     }
 
     /**
@@ -72,6 +80,7 @@ public class QueryPanelView extends javax.swing.JPanel {
         btnRunQuery = new javax.swing.JButton();
         txtLimit = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btnExport = new javax.swing.JButton();
         tabPanelOutputs = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
@@ -105,6 +114,14 @@ public class QueryPanelView extends javax.swing.JPanel {
 
         jLabel1.setText("Limit");
 
+        btnExport.setText("Exportar");
+        btnExport.setEnabled(false);
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,6 +130,8 @@ public class QueryPanelView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(btnRunQuery)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,7 +144,8 @@ public class QueryPanelView extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRunQuery)
                     .addComponent(txtLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(btnExport))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -209,8 +229,14 @@ public class QueryPanelView extends javax.swing.JPanel {
         this.controller.updateLimit(this.txtLimit.getText());
     }//GEN-LAST:event_txtLimitFocusLost
 
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        // TODO add your handling code here:
+        this.controller.onExport();
+    }//GEN-LAST:event_btnExportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnRunQuery;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
