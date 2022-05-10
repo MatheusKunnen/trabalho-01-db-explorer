@@ -20,31 +20,71 @@ import java.util.logging.Logger;
  * @author matheuskunnen
  */
 public class QueryPanelController {
+
     QueryPanelView view;
     QueryPanel queryPanel;
-    
+
     public QueryPanelController(QueryPanelView view, ConnectionProvider connProvider) {
         this.view = view;
         this.queryPanel = new QueryPanel(connProvider);
     }
-    
-    public void runQuery(final String query){
+
+    public QueryPanelController(QueryPanelView view, ConnectionProvider connProvider, final String defaultQuery) {
+        this.view = view;
+        this.queryPanel = new QueryPanel(connProvider, defaultQuery);
+    }
+
+    public void init() {
+        if (this.queryPanel.getExecutedQuery().length() > 0) {
+            System.out.println(this.queryPanel.getExecutedQuery());
+            this.view.setQueryTxt(this.queryPanel.getExecutedQuery());
+            this.runQuery();
+        }
+    }
+
+    public void runQuery() {
+        this.runQuery(this.queryPanel.getExecutedQuery());
+    }
+
+    public void runQuery(final String query) {
         try {
+            if (!query.equals(this.queryPanel.getExecutedQuery())) {
+                this.queryPanel.setExecutedQuery(query);
+            }
             Connection conn = this.queryPanel.getConnProvider().getDbConn();
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(query);
             QueryResult result = QueryResult.GetFromResultSet(rs);
+            rs.close();
+            
             this.queryPanel.setQueryResult(result);
             this.view.setTableDataModel(result.getTableModel());
             
+            this.onQuerySuccess();
         } catch (SQLException ex) {
-            Logger.getLogger(QueryPanelController.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(QueryPanelController.class.getName()).log(Level.SEVERE, null, ex);
             this.onQueryError(ex);
         }
     }
-    
-    private void onQueryError(SQLException ex){
-        
+
+    private void onQuerySuccess() {
+        this.view.focusDataTable();
+        this.queryPanel.setOutput("Query Executed !!!");
+        this.view.hydrateOutputText();
     }
-    
+
+    private void onQueryError(SQLException ex) {
+        this.view.focusOutput();
+        this.queryPanel.setOutput(ex.getMessage());
+        this.view.hydrateOutputText();
+    }
+
+    public QueryPanelView getView() {
+        return view;
+    }
+
+    public QueryPanel getQueryPanel() {
+        return queryPanel;
+    }
+
 }

@@ -14,8 +14,8 @@ import java.sql.ResultSet;
  */
 public class QueryPanel {
     private final ConnectionProvider connProvider;
-    private String executedQuery;
-    private String output;
+    private String executedQuery = "";
+    private String output = "";
     private QueryResult queryResult;
 
     public QueryPanel(ConnectionProvider connProvider) {
@@ -24,7 +24,7 @@ public class QueryPanel {
 
     public QueryPanel(ConnectionProvider connProvider, String query) {
         this.connProvider = connProvider;
-        this.executedQuery = query;
+        this.executedQuery = query == null ? "" : query;
     }
 
     public ConnectionProvider getConnProvider() {

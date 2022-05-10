@@ -37,10 +37,9 @@ public class ConnectionExplorerController {
         this.updateConnMetaData();
         this.createDefaultQuery();
     }
-    
-    public void createDefaultQuery(){
-        QueryPanelView queryView = new QueryPanelView(this.connExplorer.getConnProvider());
-        this.connExplorerView.addToTabQueries("Query", queryView);
+
+    public void createDefaultQuery() {
+        this.addNewQueryPanel("Query", "");
     }
 
     public void updateConnMetaData() {
@@ -51,6 +50,16 @@ public class ConnectionExplorerController {
             Logger.getLogger(ConnectionExplorerController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this.connExplorerView, ex.getMessage());
         }
+    }
+
+    public void onTableSelected(final Table table) {
+        System.out.println(table.getName() + " selected");
+        this.addNewQueryPanel(table.getName(), table.getSelectQuery());
+    }
+    
+    public void addNewQueryPanel(final String name, final String query){
+        QueryPanelView queryView = new QueryPanelView(this.connExplorer.getConnProvider(), query);
+        this.connExplorerView.addToTabQueries(name, queryView);
     }
 
     public DefaultMutableTreeNode getConnTree() {
@@ -74,7 +83,9 @@ public class ConnectionExplorerController {
         DefaultMutableTreeNode schemas = new DefaultMutableTreeNode("Schemas");
         for (int i = 0; i < catalog.getSchemas().size(); i++) {
             DefaultMutableTreeNode schema = new DefaultMutableTreeNode(catalog.getSchemas().get(i).getName());
-            schema.add(this.getTablesTree(catalog.getSchemas().get(i)));
+            Schema mSchema = catalog.getSchemas().get(i);
+            schema.add(this.getTablesTree(mSchema));
+            schema.add(this.getViewsTree(mSchema));
             schemas.add(schema);
         }
         return schemas;
@@ -84,10 +95,22 @@ public class ConnectionExplorerController {
         DefaultMutableTreeNode tables = new DefaultMutableTreeNode("Tables");
         for (int i = 0; i < schema.getTables().size(); i++) {
             DefaultMutableTreeNode table = new DefaultMutableTreeNode(schema.getTables().get(i).getName());
+            table.setUserObject(schema.getTables().get(i));
             table.add(this.getColumnsTree(schema.getTables().get(i)));
             tables.add(table);
         }
         return tables;
+    }
+
+    private DefaultMutableTreeNode getViewsTree(Schema schema) {
+        DefaultMutableTreeNode views = new DefaultMutableTreeNode("Views");
+        for (int i = 0; i < schema.getViews().size(); i++) {
+            DefaultMutableTreeNode view = new DefaultMutableTreeNode(schema.getViews().get(i).getName());
+            view.setUserObject(schema.getViews().get(i));
+            view.add(this.getColumnsTree(schema.getViews().get(i)));
+            views.add(view);
+        }
+        return views;
     }
 
     private DefaultMutableTreeNode getColumnsTree(Table table) {

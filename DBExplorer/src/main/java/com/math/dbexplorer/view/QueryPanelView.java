@@ -8,26 +8,52 @@ import com.math.dbexplorer.controller.QueryPanelController;
 import com.math.dbexplorer.database.ConnectionProvider;
 import javax.swing.table.TableModel;
 import org.fife.ui.rsyntaxtextarea.*;
+
 /**
  *
  * @author matheuskunnen
  */
 public class QueryPanelView extends javax.swing.JPanel {
+
     private final QueryPanelController controller;
-    
+
     /**
      * Creates new form QueryPanelView
      */
     public QueryPanelView(ConnectionProvider connProvider) {
         initComponents();
         this.controller = new QueryPanelController(this, connProvider);
-        
+        this.controller.init();
+
     }
-    
+
+    public QueryPanelView(ConnectionProvider connProvider, final String defaultQuery) {
+        initComponents();
+        this.controller = new QueryPanelController(this, connProvider, defaultQuery);
+        this.controller.init();
+
+    }
+
     public void setTableDataModel(TableModel model) {
         this.tableData.setModel(model);
     }
-   
+
+    public void setQueryTxt(final String query) {
+        this.txtQuery.setText(query);
+    }
+
+    public void focusDataTable() {
+        this.tabPanelOutputs.setSelectedIndex(0);
+    }
+
+    public void focusOutput() {
+        this.tabPanelOutputs.setSelectedIndex(1);
+    }
+
+    public void hydrateOutputText() {
+        this.txtOutput.setText(this.controller.getQueryPanel().getOutput());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +114,7 @@ public class QueryPanelView extends javax.swing.JPanel {
 
             }
         ));
+        tableData.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tableData);
 
         tabPanelOutputs.addTab("Dados", jScrollPane1);

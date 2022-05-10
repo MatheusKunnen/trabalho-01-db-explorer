@@ -4,10 +4,16 @@
  */
 package com.math.dbexplorer.view;
 
+import com.math.dbexplorer.beans.Table;
 import com.math.dbexplorer.controller.ConnectionExplorerController;
 import com.math.dbexplorer.database.ConnectionProvider;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JComponent;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -24,14 +30,37 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
         initComponents();
         this.controller = new ConnectionExplorerController(this, connProvider);
         this.controller.init();
+        this.initConnTreeListener();
+
     }
 
     public void hydrateConnectionTree() {
         this.treeConnection.setModel(new DefaultTreeModel(this.controller.getConnTree()));
     }
-    
-    public void addToTabQueries(String title, JComponent component){
+
+    public void addToTabQueries(String title, JComponent component) {
         this.tabQueries.add(title, component);
+        this.tabQueries.setSelectedIndex(this.tabQueries.getTabCount()-1);
+    }
+
+    private void initConnTreeListener() {
+        MouseListener ml = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeConnection.getLastSelectedPathComponent();
+                    if (node == null) {
+                        return;
+                    }
+                    Object nodeInfo = node.getUserObject();
+                    if (!(nodeInfo instanceof Table)) {
+                        return;
+                    }
+                    controller.onTableSelected((Table) nodeInfo);
+                }
+            }
+        };
+        treeConnection.addMouseListener(ml);
     }
 
     /**

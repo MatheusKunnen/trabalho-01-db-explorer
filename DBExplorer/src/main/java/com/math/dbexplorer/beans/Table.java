@@ -55,23 +55,35 @@ public class Table {
         this.columns = columns;
     }
 
+    public String getSelectQuery() {
+        return "SELECT * FROM " + this.schema.getName() + "." + this.getName();
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
     public static Table GetFromSchema(final DatabaseMetaData dbMeta, final Schema schema, final String name, final String type) throws SQLException {
         Table table = new Table(schema, name, type);
         ResultSet column = dbMeta.getColumns(schema.getCatalog().getName(), schema.getName(), name, null);
         ResultSet rsPk = dbMeta.getPrimaryKeys(schema.getCatalog().getName(), schema.getName(), name);
         ArrayList<String> primaryKeys = new ArrayList<>();
-        
+
         while (rsPk.next()) {
             primaryKeys.add(rsPk.getString(4));
         }
 
         while (column.next()) {
             Column col = Column.GetFromResultSet(column);
-            for (int i = 0; i < primaryKeys.size() && !col.isPrimaryKey(); i++){
-                if (col.getName().equals(primaryKeys.get(i))) col.setIsPrimaryKey(true);
+            for (int i = 0; i < primaryKeys.size() && !col.isPrimaryKey(); i++) {
+                if (col.getName().equals(primaryKeys.get(i))) {
+                    col.setIsPrimaryKey(true);
+                }
             }
             table.getColumns().add(col);
         }
+
         return table;
     }
 }
