@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -62,11 +63,30 @@ public class QueryResult {
     }
 
     public String getCSV() {
-        String csv = "";
-        
-        return csv;
+        return this.getCSV(",");
     }
-    
+
+    public String getCSV(final String separator) {
+        StringBuilder csv = new StringBuilder("");
+        for (int i = 0; i < this.columns.size(); i++) {
+            csv.append(StringEscapeUtils.escapeCsv(this.columns.get(i).getName()));
+                csv.append(separator);
+        }
+        csv.deleteCharAt(csv.length()-1);
+        csv.append("\n");
+        for (int i = 0; i < this.data.size(); i++) {
+            String[] mData = this.data.get(i);
+            for (int j = 0; j < this.columns.size(); j++) {
+                csv.append(this.columns.get(j).getCSVSafeValue(mData[j]));
+                    csv.append(separator);
+            }
+            csv.deleteCharAt(csv.length()-1);
+                csv.append("\n");
+        }
+        csv.deleteCharAt(csv.length()-1);
+        return csv.toString();
+    }
+
     public JSONObject getJsonObject(QueryResult.JSONType type) {
         JSONObject jObj = new JSONObject();
 

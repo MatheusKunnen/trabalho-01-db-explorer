@@ -55,7 +55,7 @@ public class QueryPanelController {
             ResultSet rs = stm.executeQuery(query);
             QueryResult result = QueryResult.GetFromResultSet(rs, this.queryPanel.getLimit());
             rs.close();
-
+            System.out.println(result.getCSV());
             this.queryPanel.setQueryResult(result);
             this.view.setTableDataModel(result.getTableModel());
 

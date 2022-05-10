@@ -7,6 +7,7 @@ package com.math.dbexplorer.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  *
@@ -136,6 +137,17 @@ public class Column {
                 "VARCHAR";
             default ->
                 "Unknown";
+        };
+    }
+    
+    public String getCSVSafeValue(final String value){
+        return Column.GetCSVSafeValue(this, value);
+    }
+
+    public static String GetCSVSafeValue(final Column column, final String value) {
+        return switch (column.getType()) {
+            case java.sql.Types.DECIMAL, java.sql.Types.DOUBLE, java.sql.Types.FLOAT, java.sql.Types.NUMERIC, java.sql.Types.REAL, java.sql.Types.BIGINT, java.sql.Types.INTEGER, java.sql.Types.SMALLINT, java.sql.Types.TINYINT -> value;
+            default -> StringEscapeUtils.escapeCsv(value);
         };
     }
 
