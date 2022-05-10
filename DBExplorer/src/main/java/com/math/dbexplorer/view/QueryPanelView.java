@@ -96,6 +96,7 @@ public class QueryPanelView extends javax.swing.JPanel {
         });
 
         txtLimit.setText("1000");
+        txtLimit.setMinimumSize(new java.awt.Dimension(45, 26));
         txtLimit.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtLimitFocusLost(evt);

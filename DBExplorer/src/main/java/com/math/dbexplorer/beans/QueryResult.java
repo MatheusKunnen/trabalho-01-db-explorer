@@ -10,18 +10,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
  * @author matheuskunnen
  */
 public class QueryResult {
-    
-    final ResultSetMetaData metaData;
-    final ArrayList<Column> columns;
-    final ArrayList<String[]> data;
 
-    public QueryResult(ResultSetMetaData metaData,ArrayList<Column> columns, ArrayList<String[]> data) {
+    public static enum JSONType {
+        OBJECT_MODE, ROW_MODE
+    };
+
+    private final ResultSetMetaData metaData;
+    private final ArrayList<Column> columns;
+    private final ArrayList<String[]> data;
+
+    public QueryResult(ResultSetMetaData metaData, ArrayList<Column> columns, ArrayList<String[]> data) {
         this.metaData = metaData;
         this.columns = columns;
         this.data = data;
@@ -38,7 +44,7 @@ public class QueryResult {
     public ResultSetMetaData getMetaData() {
         return metaData;
     }
-    
+
     public Object[] getTableColumnsObject() {
         ArrayList<String> cols = new ArrayList<>();
         for (int i = 0; i < this.columns.size(); i++) {
@@ -50,9 +56,59 @@ public class QueryResult {
     public Object[][] getTableValuesObject() {
         return this.data.toArray(Object[][]::new);
     }
-    
+
     public TableModel getTableModel() {
         return new DefaultTableModel(this.getTableValuesObject(), this.getTableColumnsObject());
+    }
+
+    public String getCSV() {
+        String csv = "";
+        
+        return csv;
+    }
+    
+    public JSONObject getJsonObject(QueryResult.JSONType type) {
+        JSONObject jObj = new JSONObject();
+
+        if (type == QueryResult.JSONType.ROW_MODE) {
+            jObj.put("columns", this.getColumnsJsonArray());
+            jObj.put("rows", this.getDataJsonArray());
+        } else {
+            return this.getJsonObjectInternal();
+        }
+
+        return jObj;
+    }
+
+    private JSONArray getColumnsJsonArray() {
+        JSONArray jArray = new JSONArray();
+        for (int i = 0; i < this.columns.size(); i++) {
+            jArray.put(this.columns.get(i).getName());
+        }
+        return jArray;
+    }
+
+    private JSONArray getDataJsonArray() {
+        JSONArray jArray = new JSONArray();
+        for (int i = 0; i < this.data.size(); i++) {
+            jArray.put(this.data.get(i));
+        }
+        return jArray;
+    }
+
+    private JSONObject getJsonObjectInternal() {
+        JSONObject rootObj = new JSONObject();
+        JSONArray rows = new JSONArray();
+
+        for (int i = 0; i < this.data.size(); i++) {
+            JSONObject row = new JSONObject();
+            for (int j = 0; j < this.columns.size(); j++) {
+                row.put(this.columns.get(i).getName(), this.data.get(i));
+            }
+            rows.put(row);
+        }
+        rootObj.put("data", rows);
+        return rootObj;
     }
 
     public static QueryResult GetFromResultSet(ResultSet rs, int limit) throws SQLException {
@@ -76,5 +132,4 @@ public class QueryResult {
 
         return new QueryResult(mData, columns, data);
     }
-
 }
