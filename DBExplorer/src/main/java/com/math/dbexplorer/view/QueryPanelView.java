@@ -53,6 +53,10 @@ public class QueryPanelView extends javax.swing.JPanel {
     public void hydrateOutputText() {
         this.txtOutput.setText(this.controller.getQueryPanel().getOutput());
     }
+    
+    public void hydrateLimitText(){
+        this.txtLimit.setText(String.valueOf(this.controller.getQueryPanel().getLimit()));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +70,8 @@ public class QueryPanelView extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnRunQuery = new javax.swing.JButton();
+        txtLimit = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         tabPanelOutputs = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
@@ -89,6 +95,15 @@ public class QueryPanelView extends javax.swing.JPanel {
             }
         });
 
+        txtLimit.setText("1000");
+        txtLimit.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLimitFocusLost(evt);
+            }
+        });
+
+        jLabel1.setText("Limit");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -96,13 +111,20 @@ public class QueryPanelView extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnRunQuery)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnRunQuery)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRunQuery)
+                    .addComponent(txtLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -181,9 +203,15 @@ public class QueryPanelView extends javax.swing.JPanel {
         this.controller.runQuery(this.txtQuery.getText());
     }//GEN-LAST:event_btnRunQueryActionPerformed
 
+    private void txtLimitFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLimitFocusLost
+        // TODO add your handling code here:
+        this.controller.updateLimit(this.txtLimit.getText());
+    }//GEN-LAST:event_txtLimitFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRunQuery;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -192,6 +220,7 @@ public class QueryPanelView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane tabPanelOutputs;
     private javax.swing.JTable tableData;
+    private javax.swing.JTextField txtLimit;
     private javax.swing.JTextArea txtOutput;
     private javax.swing.JTextArea txtQuery;
     // End of variables declaration//GEN-END:variables

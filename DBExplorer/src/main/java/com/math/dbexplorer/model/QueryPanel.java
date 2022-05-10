@@ -17,7 +17,7 @@ public class QueryPanel {
     private String executedQuery = "";
     private String output = "";
     private QueryResult queryResult;
-
+    private int limit = 1000;
     public QueryPanel(ConnectionProvider connProvider) {
         this.connProvider = connProvider;
     }
@@ -54,6 +54,13 @@ public class QueryPanel {
     public void setQueryResult(QueryResult queryResult) {
         this.queryResult = queryResult;
     }
-    
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
     
 }

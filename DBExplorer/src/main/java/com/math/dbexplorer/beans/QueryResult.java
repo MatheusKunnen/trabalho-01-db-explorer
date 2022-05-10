@@ -55,7 +55,7 @@ public class QueryResult {
         return new DefaultTableModel(this.getTableValuesObject(), this.getTableColumnsObject());
     }
 
-    public static QueryResult GetFromResultSet(ResultSet rs) throws SQLException {
+    public static QueryResult GetFromResultSet(ResultSet rs, int limit) throws SQLException {
         ArrayList<Column> columns = new ArrayList<>();
         ArrayList<String[]> data = new ArrayList<>();
 
@@ -66,12 +66,12 @@ public class QueryResult {
         }
 
         ArrayList<String> values = new ArrayList<>();
-        while (rs.next()) {
+        while (rs.next() && (data.size() < limit || limit <= 0)) {
             values.clear();
             for (int i = 1; i <= mData.getColumnCount(); i++) {
                 values.add(rs.getString(i));
             }
-            data.add(values.toArray(new String[]{}));
+            data.add(values.toArray(String[]::new));
         }
 
         return new QueryResult(mData, columns, data);

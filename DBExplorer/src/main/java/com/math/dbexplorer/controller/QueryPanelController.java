@@ -12,8 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,12 +53,12 @@ public class QueryPanelController {
             Connection conn = this.queryPanel.getConnProvider().getDbConn();
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(query);
-            QueryResult result = QueryResult.GetFromResultSet(rs);
+            QueryResult result = QueryResult.GetFromResultSet(rs, this.queryPanel.getLimit());
             rs.close();
-            
+
             this.queryPanel.setQueryResult(result);
             this.view.setTableDataModel(result.getTableModel());
-            
+
             this.onQuerySuccess();
         } catch (SQLException ex) {
 //            Logger.getLogger(QueryPanelController.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,6 +76,22 @@ public class QueryPanelController {
         this.view.focusOutput();
         this.queryPanel.setOutput(ex.getMessage());
         this.view.hydrateOutputText();
+    }
+
+    public void updateLimit(final String limit) {
+        int newLimit = this.queryPanel.getLimit();
+        try {
+            newLimit = Integer.parseInt(limit);
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this.view, "Limite " + limit + " inválido.");
+        }
+        this.updateLimit(newLimit);
+
+    }
+
+    public void updateLimit(final int limit) {
+        this.queryPanel.setLimit(limit);
+        this.view.hydrateLimitText();
     }
 
     public QueryPanelView getView() {
