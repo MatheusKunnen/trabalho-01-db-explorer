@@ -57,7 +57,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                 this.txtHost.getText(),
                 port,
                 this.txtUser.getText(),
-                Arrays.toString(this.txtPassword.getPassword()),
+                new String(this.txtPassword.getPassword()),
                 this.txtDatabase.getText(),
                 provider);
     }
