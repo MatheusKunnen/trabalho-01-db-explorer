@@ -7,6 +7,8 @@ package com.math.dbexplorer;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.math.dbexplorer.view.ConnectionSelectionView;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 
 /**
@@ -22,6 +24,12 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ConnectionSelectionView view = new ConnectionSelectionView();
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.add(view);

@@ -51,3 +51,4 @@ target/
 # Vim temporary files #
 
 *~
+*.DS_Store
