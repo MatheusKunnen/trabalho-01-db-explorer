@@ -46,6 +46,9 @@ public class Catalog {
         while (schema.next()) {
             catalog.getSchemas().add(Schema.GetFromCatalog(dbMeta, catalog, schema.getString(1)));
         }
+        if (catalog.getSchemas().size() <=0){
+            catalog.getSchemas().add(Schema.GetDefaultFromCatalog(dbMeta, catalog));
+        }
         return catalog;
     }
 }

@@ -24,8 +24,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class ConnectionExplorerController {
 
-    private ConnectionExplorerView connExplorerView;
-    private ConnectionExplorer connExplorer;
+    private final ConnectionExplorerView connExplorerView;
+    private final ConnectionExplorer connExplorer;
 
     public ConnectionExplorerController(ConnectionExplorerView connExplorerView, ConnectionProvider connProvider) {
         this.connExplorerView = connExplorerView;
@@ -55,8 +55,8 @@ public class ConnectionExplorerController {
     public void onTableSelected(final Table table) {
         this.addNewQueryPanel(table.getName(), table.getSelectQuery());
     }
-    
-    public void addNewQueryPanel(final String name, final String query){
+
+    public void addNewQueryPanel(final String name, final String query) {
         QueryPanelView queryView = new QueryPanelView(this.connExplorer.getConnProvider(), query);
         this.connExplorerView.addToTabQueries(name, queryView);
     }
@@ -69,25 +69,45 @@ public class ConnectionExplorerController {
     }
 
     private DefaultMutableTreeNode getCatalogsTree() {
-        DefaultMutableTreeNode catalogs = new DefaultMutableTreeNode("Catalogs");
-        for (int i = 0; i < this.connExplorer.getConnMeta().getCatalogs().size(); i++) {
-            DefaultMutableTreeNode catalog = new DefaultMutableTreeNode(this.connExplorer.getConnMeta().getCatalogs().get(i).getName());
-            catalog.add(this.getSchemasTree(this.connExplorer.getConnMeta().getCatalogs().get(i)));
-            catalogs.add(catalog);
+        if (this.connExplorer.getConnMeta().getCatalogs().isEmpty() || this.connExplorer.getConnMeta().getCatalogs().size() > 1) {
+            DefaultMutableTreeNode catalogs = new DefaultMutableTreeNode("Catalogs");
+            for (int i = 0; i < this.connExplorer.getConnMeta().getCatalogs().size(); i++) {
+                DefaultMutableTreeNode catalog = new DefaultMutableTreeNode(this.connExplorer.getConnMeta().getCatalogs().get(i).getName());
+                DefaultMutableTreeNode schemas = this.getSchemasTree(this.connExplorer.getConnMeta().getCatalogs().get(i), catalog);
+                if (schemas != null) {
+                    catalog.add(schemas);
+                }
+                catalogs.add(catalog);
+            }
+            return catalogs;
+        } else {
+            DefaultMutableTreeNode catalog = new DefaultMutableTreeNode(this.connExplorer.getConnMeta().getCatalogs().get(0).getName());
+            DefaultMutableTreeNode schemas = this.getSchemasTree(this.connExplorer.getConnMeta().getCatalogs().get(0), catalog);
+            if (schemas != null) {
+                catalog.add(schemas);
+            }
+            return catalog;
         }
-        return catalogs;
     }
 
-    private DefaultMutableTreeNode getSchemasTree(Catalog catalog) {
-        DefaultMutableTreeNode schemas = new DefaultMutableTreeNode("Schemas");
-        for (int i = 0; i < catalog.getSchemas().size(); i++) {
-            DefaultMutableTreeNode schema = new DefaultMutableTreeNode(catalog.getSchemas().get(i).getName());
-            Schema mSchema = catalog.getSchemas().get(i);
-            schema.add(this.getTablesTree(mSchema));
-            schema.add(this.getViewsTree(mSchema));
-            schemas.add(schema);
+    private DefaultMutableTreeNode getSchemasTree(Catalog catalog, DefaultMutableTreeNode nCatalog) {
+        if (catalog.getSchemas().isEmpty() || catalog.getSchemas().size() > 1) {
+            DefaultMutableTreeNode schemas = new DefaultMutableTreeNode("Schemas");
+            for (int i = 0; i < catalog.getSchemas().size(); i++) {
+                Schema mSchema = catalog.getSchemas().get(i);
+                DefaultMutableTreeNode schema = new DefaultMutableTreeNode(mSchema.getName());
+                schema.add(this.getTablesTree(mSchema));
+                schema.add(this.getViewsTree(mSchema));
+                schemas.add(schema);
+            }
+            return schemas;
+        } else {
+            Schema mSchema = catalog.getSchemas().get(0);
+            nCatalog.add(this.getTablesTree(mSchema));
+            nCatalog.add(this.getViewsTree(mSchema));
+            return null;
+
         }
-        return schemas;
     }
 
     private DefaultMutableTreeNode getTablesTree(Schema schema) {

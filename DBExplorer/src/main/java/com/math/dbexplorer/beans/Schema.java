@@ -73,5 +73,19 @@ public class Schema {
         }
         return schema;
     }
+    
+        public static Schema GetDefaultFromCatalog(DatabaseMetaData dbMeta, Catalog catalog) throws SQLException {
+        Schema schema = new Schema(catalog, null);
+        ResultSet table = dbMeta.getTables(catalog.getName(), null, null, null);
+        while (table.next()) {
+            Table tab = Table.GetFromSchema(dbMeta, schema, table.getString(3), table.getString(4));
+            if (tab.getType().toLowerCase().contains("table")) {
+                schema.getTables().add(tab);
+            } else if (tab.getType().toLowerCase().contains("view")) {
+                schema.getViews().add(tab);
+            }
+        }
+        return schema;
+    }
 
 }
