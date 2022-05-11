@@ -5,8 +5,10 @@
 package com.math.dbexplorer.model;
 
 import com.math.dbexplorer.beans.NamedConnection;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import org.json.JSONObject;
 
 /**
  *
@@ -16,12 +18,14 @@ public class ConnectionSelection {
 
     NamedConnection selectedConn = new NamedConnection();
     ArrayList<NamedConnection> connections = new ArrayList<>();
+    String connectionsFilePath = "";
 
     public ConnectionSelection() {
-        this.connections.add(new NamedConnection("Pg1", "localhost", 5432, "test", "123456789", "postgres", "postgresql"));
-        this.connections.add(new NamedConnection("Pg2", "localhost", 5432, "test", "123456789", "livraria0", "postgresql"));
-        this.connections.add(new NamedConnection("Pg3", "127.0.0.1", 5433, "test2", "1234567890", "postgres", "postgresql"));
-        this.connections.add(new NamedConnection("MySQL", "127.0.0.1", 5433, "root", "1234567890", "mysql", "mysql"));
+        this.connectionsFilePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "dbexplorer-connections.json";
+//        this.connections.add(new NamedConnection("Pg1", "localhost", 5432, "test", "123456789", "postgres", "postgresql"));
+//        this.connections.add(new NamedConnection("Pg2", "localhost", 5432, "test", "123456789", "livraria0", "postgresql"));
+//        this.connections.add(new NamedConnection("Pg3", "127.0.0.1", 5433, "test2", "1234567890", "postgres", "postgresql"));
+//        this.connections.add(new NamedConnection("MySQL", "127.0.0.1", 5433, "root", "1234567890", "mysql", "mysql"));
     }
 
     public DefaultListModel getConnList() {
@@ -47,7 +51,13 @@ public class ConnectionSelection {
     public void setConnections(ArrayList<NamedConnection> connections) {
         this.connections = connections;
     }
-    
-    
+
+    public String getConnectionsFilePath() {
+        return connectionsFilePath;
+    }
+
+    public void setConnectionsFilePath(String connectionsFilePath) {
+        this.connectionsFilePath = connectionsFilePath;
+    }
 
 }

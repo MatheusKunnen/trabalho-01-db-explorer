@@ -37,7 +37,6 @@ public class QueryPanelController {
 
     public void init() {
         if (this.queryPanel.getExecutedQuery().length() > 0) {
-            System.out.println(this.queryPanel.getExecutedQuery());
             this.view.setQueryTxt(this.queryPanel.getExecutedQuery());
             this.runQuery();
         }

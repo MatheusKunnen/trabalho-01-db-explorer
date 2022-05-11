@@ -6,7 +6,6 @@ package com.math.dbexplorer.model;
 
 import com.math.dbexplorer.beans.QueryResult;
 import com.math.dbexplorer.database.ConnectionProvider;
-import java.sql.ResultSet;
 
 /**
  *

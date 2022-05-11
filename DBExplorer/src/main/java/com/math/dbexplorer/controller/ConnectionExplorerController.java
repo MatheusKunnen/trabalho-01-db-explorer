@@ -53,7 +53,6 @@ public class ConnectionExplorerController {
     }
 
     public void onTableSelected(final Table table) {
-        System.out.println(table.getName() + " selected");
         this.addNewQueryPanel(table.getName(), table.getSelectQuery());
     }
     

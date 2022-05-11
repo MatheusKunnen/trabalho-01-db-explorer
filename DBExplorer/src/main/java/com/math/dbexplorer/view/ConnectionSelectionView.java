@@ -4,18 +4,20 @@
  */
 package com.math.dbexplorer.view;
 
-import com.math.dbexplorer.beans.ConnectionParameters;
 import com.math.dbexplorer.beans.NamedConnection;
 import com.math.dbexplorer.controller.ConnectionSelectionController;
+import java.util.Arrays;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author matheuskunnen
  */
 public class ConnectionSelectionView extends javax.swing.JPanel {
-
+    
     ConnectionSelectionController controller;
+    private boolean isNew = true;
 
     /**
      * Creates new form ConnectionsView
@@ -23,13 +25,16 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     public ConnectionSelectionView() {
         initComponents();
         this.controller = new ConnectionSelectionController(this);
+        this.controller.init();
     }
-
+    
     public void setConnList(DefaultListModel model) {
+        this.listConnections.clearSelection();
         this.listConnections.setModel(model);
     }
-
+    
     public void hydrateSelectedConn() {
+        this.isNew = false;
         NamedConnection selected = this.controller.getConnSelection().getSelectedConn();
         this.txtAlias.setText(selected.getAlias());
         this.txtHost.setText(selected.getHost());
@@ -38,6 +43,34 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         this.txtPassword.setText(selected.getPassword());
         this.txtDatabase.setText(selected.getDatabase());
         this.lstProvider.setValue(selected.getProvider());
+    }
+    
+    public NamedConnection getCurrentConnection() {
+        String provider = (String) this.lstProvider.getValue();
+        int port = 0;
+        try {
+            port = Integer.parseInt(this.txtPort.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Porta " + this.txtPort.getText() + " inválida");
+        }
+        return new NamedConnection(this.txtAlias.getText(),
+                this.txtHost.getText(),
+                port,
+                this.txtUser.getText(),
+                Arrays.toString(this.txtPassword.getPassword()),
+                this.txtDatabase.getText(),
+                provider);
+    }
+    
+    public void onNew() {
+        this.isNew = true;
+        this.listConnections.clearSelection();
+        this.txtAlias.setText("");
+        this.txtHost.setText("");
+        this.txtPort.setText("5432");
+        this.txtUser.setText("");
+        this.txtPassword.setText("");
+        this.txtDatabase.setText("");
     }
 
     /**
@@ -64,9 +97,8 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         lstProvider = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
         btnConn = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtDatabase = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -77,17 +109,28 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(204, 255, 255));
-
         jLabel2.setText("Alias");
 
         jLabel3.setText("Host");
 
+        txtHost.setText("localhost");
+
         jLabel4.setText("Usuario");
+
+        txtUser.setText("test");
 
         jLabel5.setText("Senha");
 
+        txtPort.setText("5432");
+        txtPort.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPortFocusLost(evt);
+            }
+        });
+
         jLabel6.setText("Porta");
+
+        txtPassword.setText("123456789");
 
         lstProvider.setModel(new javax.swing.SpinnerListModel(new String[] {"postgresql", "mysql"}));
         lstProvider.setMinimumSize(new java.awt.Dimension(97, 26));
@@ -101,15 +144,23 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
             }
         });
 
-        btnEdit.setText("Editar");
-
         btnSave.setText("Salvar");
-        btnSave.setEnabled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
-        btnCancel.setText("Cancelar");
-        btnCancel.setEnabled(false);
+        btnDelete.setText("Deletar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("DB");
+
+        txtDatabase.setText("livraria0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,27 +181,25 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 114, Short.MAX_VALUE)
-                        .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConn))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtDatabase, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtAlias)
-                            .addComponent(lstProvider, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 207, Short.MAX_VALUE)
+                                .addComponent(btnDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSave)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnConn))
+                            .addComponent(txtDatabase)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPassword)
+                            .addComponent(txtUser)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtAlias, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lstProvider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -187,18 +236,21 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConn)
-                    .addComponent(btnEdit)
                     .addComponent(btnSave)
-                    .addComponent(btnCancel))
+                    .addComponent(btnDelete))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(250, 363));
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(200, 250));
 
         listConnections.setMinimumSize(new java.awt.Dimension(250, 300));
+        listConnections.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listConnectionsMouseClicked(evt);
+            }
+        });
         listConnections.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listConnectionsValueChanged(evt);
@@ -219,11 +271,12 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-            .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -232,9 +285,10 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNew))
+                .addComponent(btnNew)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -243,7 +297,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -274,6 +328,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
+        this.onNew();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnConnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnActionPerformed
@@ -283,15 +338,41 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
 
     private void listConnectionsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listConnectionsValueChanged
         // TODO add your handling code here:
-//        System.out.println(this.listConnections.getSelectedIndex());
         this.controller.updateSelectedConnection(this.listConnections.getSelectedIndex());
     }//GEN-LAST:event_listConnectionsValueChanged
 
+    private void listConnectionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listConnectionsMouseClicked
+        // TODO add your handling code here:
+        this.controller.updateSelectedConnection(this.listConnections.getSelectedIndex());
+    }//GEN-LAST:event_listConnectionsMouseClicked
+
+    private void txtPortFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusLost
+        // TODO add your handling code here:
+        try {
+            Integer.parseInt(this.txtPort.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Porta " + this.txtPort.getText() + " inválida");
+            this.txtPort.setText("0");
+        }
+    }//GEN-LAST:event_txtPortFocusLost
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        if (this.isNew)
+            this.controller.addConnection(this.getCurrentConnection());
+        else
+            this.controller.updateConnection(this.getCurrentConnection());
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        this.controller.deleteConnection(this.getCurrentConnection());
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnConn;
-    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
