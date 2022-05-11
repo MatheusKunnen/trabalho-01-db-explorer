@@ -182,9 +182,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtUser">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="test"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -205,9 +202,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtPassword">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="123456789"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="lstProvider">
               <Properties>
@@ -257,9 +251,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDatabase">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="livraria0"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
