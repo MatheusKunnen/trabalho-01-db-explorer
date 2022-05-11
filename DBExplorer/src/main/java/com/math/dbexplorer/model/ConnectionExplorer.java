@@ -12,8 +12,8 @@ import com.math.dbexplorer.database.ConnectionProvider;
  * @author matheuskunnen
  */
 public class ConnectionExplorer {
-    ConnMetaData connMeta;
-    ConnectionProvider connProvider;
+    private ConnMetaData connMeta;
+    private ConnectionProvider connProvider;
 
     public ConnectionExplorer(ConnectionProvider connProvider, ConnMetaData connMeta) {
         this.connMeta = connMeta;

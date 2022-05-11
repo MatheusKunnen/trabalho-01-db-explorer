@@ -32,8 +32,8 @@ import org.json.JSONTokener;
  */
 public class ConnectionSelectionController {
 
-    ConnectionSelection connSelection = new ConnectionSelection();
-    ConnectionSelectionView connSelectionView;
+    private ConnectionSelection connSelection = new ConnectionSelection();
+    private ConnectionSelectionView connSelectionView;
 
     public ConnectionSelectionController(ConnectionSelectionView connSelectionView) {
         this.connSelectionView = connSelectionView;

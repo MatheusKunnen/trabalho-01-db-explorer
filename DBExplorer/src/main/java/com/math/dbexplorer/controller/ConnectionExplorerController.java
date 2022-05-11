@@ -24,8 +24,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class ConnectionExplorerController {
 
-    ConnectionExplorerView connExplorerView;
-    ConnectionExplorer connExplorer;
+    private ConnectionExplorerView connExplorerView;
+    private ConnectionExplorer connExplorer;
 
     public ConnectionExplorerController(ConnectionExplorerView connExplorerView, ConnectionProvider connProvider) {
         this.connExplorerView = connExplorerView;

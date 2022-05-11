@@ -6,7 +6,6 @@ package com.math.dbexplorer.beans;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import org.apache.commons.text.StringEscapeUtils;
 
 /**

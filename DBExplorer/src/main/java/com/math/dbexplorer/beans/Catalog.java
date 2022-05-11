@@ -4,7 +4,6 @@
  */
 package com.math.dbexplorer.beans;
 
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +16,13 @@ import java.util.ArrayList;
 public class Catalog {
 
     private final String name;
-    ArrayList<Schema> schemas;
+    private ArrayList<Schema> schemas;
 
     public Catalog(String name) {
         this.name = name;
         this.schemas = new ArrayList<>();
     }
-        
+
     public Catalog(String name, ArrayList<Schema> schemas) {
         this.name = name;
         this.schemas = schemas;
@@ -41,12 +40,10 @@ public class Catalog {
         this.schemas = schemas;
     }
 
-
-
-    public static Catalog GetFromMetaData(DatabaseMetaData dbMeta, final String name) throws SQLException{
+    public static Catalog GetFromMetaData(DatabaseMetaData dbMeta, final String name) throws SQLException {
         Catalog catalog = new Catalog(name);
         ResultSet schema = dbMeta.getSchemas(name, null);
-        while(schema.next()){
+        while (schema.next()) {
             catalog.getSchemas().add(Schema.GetFromCatalog(dbMeta, catalog, schema.getString(1)));
         }
         return catalog;

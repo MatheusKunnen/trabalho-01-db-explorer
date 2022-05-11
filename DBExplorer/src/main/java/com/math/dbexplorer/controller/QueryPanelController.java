@@ -22,8 +22,8 @@ import javax.swing.JOptionPane;
  */
 public class QueryPanelController {
 
-    QueryPanelView view;
-    QueryPanel queryPanel;
+    private QueryPanelView view;
+    private QueryPanel queryPanel;
 
     public QueryPanelController(QueryPanelView view, ConnectionProvider connProvider) {
         this.view = view;

@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
  * @author matheuskunnen
  */
 public class ConnectionSelectionView extends javax.swing.JPanel {
-    
-    ConnectionSelectionController controller;
+
+    private ConnectionSelectionController controller;
     private boolean isNew = true;
 
     /**
@@ -27,12 +27,12 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         this.controller = new ConnectionSelectionController(this);
         this.controller.init();
     }
-    
+
     public void setConnList(DefaultListModel model) {
         this.listConnections.clearSelection();
         this.listConnections.setModel(model);
     }
-    
+
     public void hydrateSelectedConn() {
         this.isNew = false;
         NamedConnection selected = this.controller.getConnSelection().getSelectedConn();
@@ -44,7 +44,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         this.txtDatabase.setText(selected.getDatabase());
         this.lstProvider.setValue(selected.getProvider());
     }
-    
+
     public NamedConnection getCurrentConnection() {
         String provider = (String) this.lstProvider.getValue();
         int port = 0;
@@ -61,7 +61,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                 this.txtDatabase.getText(),
                 provider);
     }
-    
+
     public void onNew() {
         this.isNew = true;
         this.listConnections.clearSelection();
@@ -117,8 +117,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
 
         jLabel4.setText("Usuario");
 
-        txtUser.setText("test");
-
         jLabel5.setText("Senha");
 
         txtPort.setText("5432");
@@ -129,8 +127,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         });
 
         jLabel6.setText("Porta");
-
-        txtPassword.setText("123456789");
 
         lstProvider.setModel(new javax.swing.SpinnerListModel(new String[] {"postgresql", "mysql"}));
         lstProvider.setMinimumSize(new java.awt.Dimension(97, 26));
@@ -159,8 +155,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         });
 
         jLabel8.setText("DB");
-
-        txtDatabase.setText("livraria0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -327,17 +321,14 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        // TODO add your handling code here:
         this.onNew();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnConnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnActionPerformed
-        // TODO add your handling code here:
         this.controller.onConnect();
     }//GEN-LAST:event_btnConnActionPerformed
 
     private void listConnectionsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listConnectionsValueChanged
-        // TODO add your handling code here:
         this.controller.updateSelectedConnection(this.listConnections.getSelectedIndex());
     }//GEN-LAST:event_listConnectionsValueChanged
 
@@ -347,7 +338,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     }//GEN-LAST:event_listConnectionsMouseClicked
 
     private void txtPortFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusLost
-        // TODO add your handling code here:
         try {
             Integer.parseInt(this.txtPort.getText());
         } catch (NumberFormatException e) {
@@ -357,7 +347,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPortFocusLost
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
         if (this.isNew)
             this.controller.addConnection(this.getCurrentConnection());
         else
@@ -365,7 +354,6 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
         this.controller.deleteConnection(this.getCurrentConnection());
     }//GEN-LAST:event_btnDeleteActionPerformed
 
