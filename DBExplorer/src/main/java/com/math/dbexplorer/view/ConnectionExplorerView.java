@@ -80,8 +80,13 @@ public class ConnectionExplorerView extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel2.setMaximumSize(new java.awt.Dimension(100, 32767));
+
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(400, 32767));
+
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         treeConnection.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        treeConnection.setMaximumSize(new java.awt.Dimension(400, 19));
         jScrollPane1.setViewportView(treeConnection);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

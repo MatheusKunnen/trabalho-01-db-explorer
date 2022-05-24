@@ -101,6 +101,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtDatabase = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listConnections = new javax.swing.JList<>();
@@ -156,6 +157,8 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
 
         jLabel8.setText("DB");
 
+        jLabel9.setText("Desenvolvido por Matheus Kunnen Ledesma");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -178,6 +181,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 207, Short.MAX_VALUE)
                                 .addComponent(btnDelete)
@@ -232,7 +236,9 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
                     .addComponent(btnConn)
                     .addComponent(btnSave)
                     .addComponent(btnDelete))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addContainerGap())
         );
 
         jPanel3.setPreferredSize(new java.awt.Dimension(250, 363));
@@ -371,6 +377,7 @@ public class ConnectionSelectionView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

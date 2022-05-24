@@ -71,6 +71,7 @@ public class ConnectionSelectionController {
             JPanel panel = new ConnectionExplorerView(connProvider);
             JOptionPane jop = new JOptionPane();
             JDialog dialog = jop.createDialog("Conexão " + this.connSelection.getSelectedConn().getDatabaseUrl());
+            dialog.setResizable(true);
             dialog.setSize(720, 500);
             dialog.setContentPane(panel);
             dialog.setVisible(true);
